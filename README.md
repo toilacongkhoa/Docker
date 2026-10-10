@@ -14,7 +14,7 @@ Replace `<image-id>` with the image ID returned by the build command.
 
 ```bash
 docker run -p 3000:3000 <image-id>  # Map port(-p) 3000 to your machine
-docker run -it <image-id>          # Run the app with interactive(-i) input and a TTY(-t)
+docker run -it <image-id>           # Run the app with interactive(-i) input and a TTY(-t)
 ```
 
 Open http://localhost:3000 after running the app with `-p 3000:3000`.
