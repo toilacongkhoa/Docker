@@ -13,11 +13,11 @@ docker build .
 Replace `<image-id>` with the image ID returned by the build command.
 
 ```bash
-docker run -p 3000:3000 <image-id>  # Map port(-p) 3000 to your machine
+docker run -p 3000:80 <image-id>    # Machine port(-p) 3000 -> container port 80
 docker run -it <image-id>           # Run the app with interactive(-i) input and a TTY(-t)
 ```
 
-Open http://localhost:3000 after running the app with `-p 3000:3000`.
+The `-p <host-port>:<container-port>` option maps the port on your machine (left) to the port inside the container (right). With `-p 3000:80`, open http://localhost:3000 to reach the app listening on port 80 in the container.
 
 ## List Containers
 
