@@ -15,6 +15,7 @@ docker ps -h      # Show help(-h) for a specific command
 
 ```bash
 docker build .
+docker build -t <image-name>:<tag> .  # Assign a name and tag(-t) to the image
 ```
 
 ## Run Containers
@@ -24,9 +25,11 @@ Replace `<image-id>` with the image ID returned by the build command.
 By default, `docker run` runs in attached mode and displays the container's output in your terminal.
 
 ```bash
-docker run -p 3000:80 <image-id>     # publish(-p) container port 80 on port 3000 of your machine
-docker run -p 3000:80 -d <image-id>  # Run in detached(-d) mode in the background
-docker run -it <image-id>           # Run the app with interactive(-i) input and a tty(-t)
+docker run -p 3000:80 <image-id>               # publish(-p) container port 80 on port 3000 of your machine
+docker run -d <image-id>                       # Run in detached(-d) mode in the background
+docker run -it <image-id>                      # Accept terminal input with interactive(-i) mode and allocate a pseudo-terminal with tty(-t)
+docker run --rm <image-id>                     # Automatically remove(--rm) the container when it exits
+docker run --name <container-name> <image-id>  # Assign a name(--name) to the container
 ```
 
 The `-p <host-port>:<container-port>` option maps the port on your machine (left) to the port inside the container (right). With `-p 3000:80`, open http://localhost:3000 to reach the app listening on port 80 in the container.
@@ -54,7 +57,7 @@ By default, `docker start` starts a stopped container in detached mode, without 
 
 ```bash
 docker start <container-name>     # Start an existing stopped container
-docker start -a <container-name>  # Start the container and attach(-a) to its output
+docker start -a <container-name>  # Start the container and attach(-a) to display its output in your terminal
 ```
 
 ## Attach to a Running Container
@@ -68,4 +71,37 @@ docker attach <container-name>  # Attach your terminal to the running container'
 ```bash
 docker logs <container-name>     # Show the container's available recorded logs
 docker logs -f <container-name>  # Show recorded logs and follow(-f) new output as it appears
+```
+
+## Remove Stopped Containers
+
+```bash
+docker rm <container-name> [<container-name> ...]  # Remove one or more stopped containers
+```
+
+## Copy Files Between Your Machine and a Container
+
+```bash
+docker cp <local-path> <container-name>:/<destination-path>  # Copy files from your machine into the container
+docker cp <container-name>:/<source-path> <local-destination-path>  # Copy files from the container to your machine
+```
+
+## List Images
+
+```bash
+docker images  # List locally available images
+```
+
+## Inspect an Image
+
+```bash
+docker image inspect <image-id>  # Show detailed information about an image
+```
+
+## Remove Images
+
+Remove any containers using the image first, including stopped containers.
+
+```bash
+docker rmi <image-id> [<image-id> ...]  # Remove one or more images that are not used by any containers
 ```
