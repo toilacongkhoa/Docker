@@ -18,6 +18,29 @@ docker build .
 docker build -t <image-name>:<tag> .  # Assign a name and tag(-t) to the image
 ```
 
+If you specify an image name without a tag, Docker uses `latest`, for example `docker build -t my-app .` creates `my-app:latest`. Building without `-t` does not assign a name or tag.
+
+## Tag an Image
+
+```bash
+docker tag <old-name>:<old-tag> <new-name>:<new-tag>  # Add a new name and tag to an existing image
+```
+
+The original name and tag remain available.
+
+## Docker Hub Authentication
+
+```bash
+docker login   # Log in to Docker Hub
+docker logout  # Log out of Docker Hub
+```
+
+## Pull an Image
+
+```bash
+docker pull <image-name>:<tag>  # Download an image from Docker Hub to your machine
+```
+
 ## Run Containers
 
 Replace `<image-id>` with the image ID returned by the build command.
@@ -105,3 +128,12 @@ Remove any containers using the image first, including stopped containers.
 ```bash
 docker rmi <image-id> [<image-id> ...]  # Remove one or more images that are not used by any containers
 ```
+
+## Prune Unused Images
+
+```bash
+docker image prune     # Remove dangling images that are untagged and not referenced by any container
+docker image prune -a  # Remove all(-a) images not referenced by any container, including tagged images
+```
+
+Stopped containers also count as references. Docker asks for confirmation before pruning.
