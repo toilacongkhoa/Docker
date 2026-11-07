@@ -47,15 +47,22 @@ Replace `<image-id>` with the image ID returned by the build command.
 
 By default, `docker run` runs in attached mode and displays the container's output in your terminal.
 
-```bash
-docker run -p 3000:80 <image-id>               # publish(-p) container port 80 on port 3000 of your machine
-docker run -d <image-id>                       # Run in detached(-d) mode in the background
-docker run -it <image-id>                      # Accept terminal input with interactive(-i) mode and allocate a pseudo-terminal with tty(-t)
-docker run --rm <image-id>                     # Automatically remove(--rm) the container when it exits
-docker run --name <container-name> <image-id>  # Assign a name(--name) to the container
+```powershell
+docker run -p 3000:80 <image-id>                                      # publish(-p) container port 80 on port 3000 of your machine
+docker run -d <image-id>                                              # Run in detached(-d) mode in the background
+docker run -it <image-id>                                             # Accept terminal input with interactive(-i) mode and allocate a pseudo-terminal with tty(-t)
+docker run --rm <image-id>                                            # Automatically remove(--rm) the container when it exits
+docker run --name <container-name> <image-id>                         # Assign a name(--name) to the container
+docker run -v <container-path> <image-id>                             # Create an anonymous volume(-v) at the container path
+docker run -v <volume-name>:<container-path> <image-id>               # Create or reuse a named volume(-v) at the container path
+docker run -v "<absolute-host-path>:<container-path>" <image-id>      # Use the volume(-v) option to bind mount a local directory into the container
 ```
 
 The `-p <host-port>:<container-port>` option maps the port on your machine (left) to the port inside the container (right). With `-p 3000:80`, open http://localhost:3000 to reach the app listening on port 80 in the container.
+
+Named volumes persist after the container is removed. `docker run --rm` removes the container and its anonymous volumes when it exits, but keeps named volumes.
+
+For bind mounts, use an absolute host path. In PowerShell, `${PWD}` refers to the current directory.
 
 ## List Containers
 
@@ -137,3 +144,26 @@ docker image prune -a  # Remove all(-a) images not referenced by any container, 
 ```
 
 Stopped containers also count as references. Docker asks for confirmation before pruning.
+
+## List Volumes
+
+```bash
+docker volume ls  # List local volumes
+```
+
+## Remove a Volume
+
+A volume must not be referenced by any container, including stopped containers, before it can be removed.
+
+```bash
+docker volume rm <volume-name>  # Remove a volume that is not used by any container
+```
+
+## Prune Unused Volumes
+
+Pruning asks for confirmation and deletes data from volumes not referenced by any container, including stopped containers.
+
+```bash
+docker volume prune     # Remove unused anonymous volumes
+docker volume prune -a  # Remove all(-a) unused volumes, including named volumes
+```
